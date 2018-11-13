@@ -25,7 +25,7 @@ namespace Labs
         {
             InitializeComponent();
             textBoxX.Text = X + "";
-            textBoxa.Text = a+"";
+            textBoxa.Text = a + "";
             textBoxb.Text = b + "";
             textBoxc.Text = c + "";
             textBoxZ.Text = Z + "";
@@ -33,20 +33,22 @@ namespace Labs
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            res = "1)    "+first(X)+"\n\n";
-            res += "2)    " +"Правила подсчета цифр:    Z = ";
-            secondFAsync();
-
+            res = "1)    " + first(X) + "\r\n";
+            res += "2)    " + "НГ = ";
+            secondAsync(false);
+            res += "ВГ = ";
+            secondAsync(true);
+            
             textBoxMain.Text = res;
         }
 
         private string first(double x)
         {
             double x1 = getRound(3, x);
-            double dx1 = getRound(1,Math.Abs(x - x1));
+            double dx1 = getRound(1, Math.Abs(x - x1));
             double d = 0.05;
-            double sigma = dx1 / Math.Abs(x1)*100;
-            return "X1 = "+x1+"\t dX1 = "+dx1+"\t delta = "+d+"\t sigma = "+sigma;
+            double sigma = dx1 / Math.Abs(x1) * 100;
+            return "X1 = " + x1 + "\t dX1 = " + dx1 + "\t delta = " + d + "\t sigma = " + sigma;
         }
 
         private double getRound(int digs, double d)
@@ -68,34 +70,89 @@ namespace Labs
             return r;
         }
 
-        private async void secondFAsync()
+        private async void secondAsync(bool down)
         {
-            var result = await CSharpScript.EvaluateAsync(form(), ScriptOptions.Default.WithImports("System.Math"));
+            var result = await CSharpScript.EvaluateAsync(form(down), ScriptOptions.Default.WithImports("System.Math"));
+            res += result + "\r\n";
         }
 
-        private string form()
+        private string form(bool down)
         {
             string str = "";
-            for(int i = 0; i < Z.Length; i++)
+            for (int i = 0; i < Z.Length; i++)
             {
                 switch (Z[i])
                 {
                     case 'a':
-                        str += a;
+                        double aR = 0.0;
+                        if (down)
+                        {
+                            aR = a - dBorder(a);
+                        }
+                        else
+                        {
+                            aR = a + dBorder(a);
+                        }
+                        str += aR;
                         break;
                     case 'b':
-                        str += b;
+                        double bR = 0.0;
+                        if (Z[i - 2] == 'n')
+                        {
+                            double bdigrees = b * (Math.PI / 180.0);
+                            if (down)
+                            {
+                                bR = bdigrees - dBorder(bdigrees);
+                            }
+                            else
+                            {
+                                bR = bdigrees + dBorder(bdigrees);
+                            }
+                            str += bR;
+                            break;
+                        }
+                        if (down)
+                        {
+                            bR = b - dBorder(b);
+                        }
+                        else
+                        {
+                            bR = b + dBorder(b);
+                        }
+                        str += bR;
                         break;
                     case 'c':
-                        str += c;
+                        double cR = 0.0;
+                        if (down)
+                        {
+                            cR = c - dBorder(c);
+                        }
+                        else
+                        {
+                            cR = c + dBorder(c);
+                        }
+                        str += cR;
                         break;
                     default:
                         str += Z[i];
                         break;
                 }
             }
-            str=str.Replace(',', '.');
+            str = str.Replace(',', '.');
             return str;
+        }
+
+        private double dBorder(double num)
+        {
+            int a = 0;
+            string da = "0,";
+            while (num * Math.Pow(10, 1 + a) % 10 != 0)
+            {
+                a++;
+                da += "0";
+            }
+            da += "5";
+            return Convert.ToDouble(da);
         }
     }
 }
