@@ -97,7 +97,7 @@ namespace Labs
                         break;
                     case 'b':
                         double bR = 0.0;
-                        if (Z[i - 2] == 'n')
+                        if (Z[i - 2].ToString().Length!=0&&(Z[i - 2] == 'n'|| Z[i - 2] == 's'|| Z[i - 2] == 'g'))
                         {
                             double bdigrees = b * (Math.PI / 180.0);
                             if (down)
