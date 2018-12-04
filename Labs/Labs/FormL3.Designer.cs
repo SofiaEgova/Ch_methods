@@ -102,14 +102,14 @@
             this.textBoxRes.Multiline = true;
             this.textBoxRes.Name = "textBoxRes";
             this.textBoxRes.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxRes.Size = new System.Drawing.Size(985, 290);
+            this.textBoxRes.Size = new System.Drawing.Size(985, 598);
             this.textBoxRes.TabIndex = 7;
             // 
             // FormL3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1040, 513);
+            this.ClientSize = new System.Drawing.Size(1040, 740);
             this.Controls.Add(this.textBoxRes);
             this.Controls.Add(this.textBoxb);
             this.Controls.Add(this.textBoxa);
